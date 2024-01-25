@@ -50,3 +50,10 @@ slither contracts/BadAuth.sol --json slither_output.json
 ```console
 python3 main.py analyze contracts/BadAuth.sol
 ```
+
+To remove comments from the code you can use
+
+```console
+python3 main.py analyze contracts/BadAuth.sol \
+    --without-comments
+```

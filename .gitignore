@@ -130,3 +130,4 @@ dist
 .pnp.*
 
 .gitkeep
+llm_prompt.txt

@@ -1,6 +1,7 @@
 import json
 import openai
 import os
+import re
 import subprocess
 import typer
 from dotenv import load_dotenv
@@ -8,6 +9,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = typer.Typer()
+
+
+def remove_comments(solidity_code):
+    # Remove single line comments
+    solidity_code = re.sub(r'//.*', '', solidity_code)
+    # Remove multi-line comments
+    solidity_code = re.sub(r'/\*.*?\*/', '', solidity_code, flags=re.DOTALL)
+    return solidity_code
 
 
 def flatten_contract(contract_path):
@@ -80,7 +89,7 @@ def flatten(contract_path: str):
 
 
 @app.command()
-def analyze(contract_path: str, use_ai: bool = typer.Option(True, help="Use AI for further analysis")):
+def analyze(contract_path: str, use_ai: bool = typer.Option(True, help="Use AI for further analysis"), without_comments: bool = typer.Option(False, help="Remove comments from the contract before analysis")):
     """
     Analyze a smart contract for vulnerabilities.
     """
@@ -89,7 +98,16 @@ def analyze(contract_path: str, use_ai: bool = typer.Option(True, help="Use AI f
         typer.echo("Static analysis completed.")
         if use_ai:
             flattened_code = flatten_contract(contract_path)
+            if without_comments:
+                flattened_code = remove_comments(flattened_code)
+
             prompt = generate_prompt(flattened_code, slither_results)
+
+            # Write the generated prompt to a file
+            with open('llm_prompt.txt', 'w') as file:
+                file.write(prompt)
+            print("Generated Prompt for LLM written to llm_prompt.txt")
+
             gpt4_response = query_llm(prompt)
             typer.echo("AI Analysis Results:")
             typer.echo(gpt4_response)
