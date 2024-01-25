@@ -52,13 +52,16 @@ def run_slither_analysis(contract_path):
 
 def generate_prompt(flattened_code, slither_results):
     prompt = (
-        f"Provide an exhaustive list of all issues and vulnerabilities inside the following smart contract. "
-        f"Be detailed in the issue descriptions and describe the actors involved. Include one exploit scenario "
-        f"in each vulnerability. Output as a valid JSON with a list of objects that each have 'description', "
-        f"'action', 'severity', 'actors', 'scenario', and 'type'. 'type' can be 'usability', 'vulnerability', "
-        f"'optimization', or 'suggestion'. 'actors' is a list of the involved actors. 'severity' can be "
-        f"'low + ice block emoji', 'medium', or 'high + fire emoji'. \n\n```\n{flattened_code}\n```\n\n"
-        f"Results from static code analysis: \n\n```\n{json.dumps(slither_results, indent=2)}\n```\n\n"
+        "Provide an exhaustive list of all issues and vulnerabilities inside the following smart contract. "
+        "Be detailed in the issue descriptions and describe the actors involved. Include one exploit scenario "
+        "in each vulnerability. Output as a valid JSON with a list of objects that each have 'description', "
+        "'action', 'severity', 'actors', 'scenario', and 'type'. 'type' can be 'usability', 'vulnerability', "
+        "'optimization', or 'suggestion'. 'actors' is a list of the involved actors. 'severity' can be "
+        "'low + ice block emoji', 'medium', or 'high + fire emoji'. "
+        "Output high severity findings first and low severity findings last.\n\n"
+        "```\n" + flattened_code + "\n```\n\n"
+        "Results from static code analysis: \n\n"
+        "```\n" + json.dumps(slither_results, indent=2) + "\n```\n\n"
     )
     return prompt
 
@@ -107,6 +110,8 @@ def analyze(contract_path: str, use_ai: bool = typer.Option(True, help="Use AI f
             with open('llm_prompt.txt', 'w') as file:
                 file.write(prompt)
             print("Generated Prompt for LLM written to llm_prompt.txt")
+            print("AI code review in progress. This might take a while.")
+            print("...")
 
             gpt4_response = query_llm(prompt)
             typer.echo("AI Analysis Results:")
