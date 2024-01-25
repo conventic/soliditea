@@ -1,7 +1,9 @@
 import typer
+import os
+from typing_extensions import Annotated
 
 
-def main(root_dir: str):
+def main(root_dir: Annotated[str, typer.Argument()] = os.getcwd()):
     print(f"Recursing from: {root_dir}")
 
 
