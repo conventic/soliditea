@@ -1,12 +1,14 @@
 import json
-import openai
 import os
 import re
 import subprocess
 import typer
 from dotenv import load_dotenv
+from openai import OpenAI
 
 load_dotenv()
+
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 app = typer.Typer()
 
@@ -62,14 +64,12 @@ def generate_prompt(flattened_code, slither_results):
 
 
 def query_llm(prompt):
-    openai.api_key = os.getenv('OPENAI_API_KEY')
     try:
-        response = openai.Completion.create(
-            engine="gpt-4-1106-preview",
-            prompt=prompt,
-            max_tokens=4096
+        response = client.chat.completions.create(
+            model="gpt-4-1106-preview",
+            messages=[{"role": "system", "content": prompt}]
         )
-        return response.choices[0].text.strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         print(f"Error querying GPT-4: {e}")
         return None
