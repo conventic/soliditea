@@ -38,6 +38,16 @@ npm install -g truffle
 npm install -g truffle-flattener
 ```
 
+### Setup OpenAI API key
+
+Create a `.env` file:
+
+```console
+cp .env.example .env
+```
+
+and replace `YOUR_API_KEY` with a valid API key.
+
 ### Run Slither
 
 ```console
