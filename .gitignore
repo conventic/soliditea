@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+.gitkeep
+llm_prompt.txt
+slither_output.json
+report.html

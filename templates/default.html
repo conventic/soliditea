@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vulnerabilities Report</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .analysis-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .severity {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Vulnerabilities Report</h1>
+    {% if results.detectors %}
+    <table>
+      <tr>
+        <th>Check</th>
+        <th>Confidence</th>
+        <th>Description</th>
+        <th>Elements</th>
+      </tr>
+      {% for detector in results.detectors %}
+      <tr>
+        <td>{{ detector.check }}</td>
+        <td>{{ detector.confidence }}</td>
+        <td>{{ detector.description }}</td>
+        <td>
+          <ul>
+            {% for element in detector.elements %}
+            <li>{{ element.name }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No vulnerabilities detected.</p>
+    {% endif %}
+
+    <h1>AI Analysis Results</h1>
+    {% for item in analysis_results %}
+    <div class="analysis-item">
+      <h2>Description</h2>
+      <p>{{ item.description }}</p>
+      <h2>Action</h2>
+      <p>{{ item.action }}</p>
+      <h2>Severity</h2>
+      <p class="severity">{{ item.severity }}</p>
+      <h2>Actors</h2>
+      <p>{{ item.actors | join(", ") }}</p>
+      <h2>Scenario</h2>
+      <p>{{ item.scenario }}</p>
+      <h2>Type</h2>
+      <p>{{ item.type }}</p>
+    </div>
+    {% endfor %}
+  </body>
+</html>
