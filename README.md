@@ -19,7 +19,7 @@ code improvements.
 - Python 3.7+.
 - Node.js and npm for `truffle-flattener`.
 
-Check `solc --version` to make sure solidity is installed.  
+Check `solc --version` to make sure solidity is installed.
 
 ### Install solc (if not yet installed)
 
@@ -61,7 +61,7 @@ Create a `.env` file:
 cp .env.example .env
 ```
 
-and replace `YOUR_API_KEY` with a valid API key.
+and replace `YOUR_API_KEY` with a valid OpenAI API key.
 
 ### Run Slither
 

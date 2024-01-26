@@ -132,3 +132,4 @@ dist
 .gitkeep
 llm_prompt.txt
 slither_output.json
+report.html

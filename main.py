@@ -5,12 +5,29 @@ import subprocess
 import typer
 from dotenv import load_dotenv
 from openai import OpenAI
+from jinja2 import Environment, FileSystemLoader
 
 load_dotenv()
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 app = typer.Typer()
+
+
+def generate_html_report(slither_results, gpt4_results):
+    filename = "report.html"
+    env = Environment(loader=FileSystemLoader("templates/"))
+    template = env.get_template("default.html")
+    
+    if gpt4_results:
+        json_part = gpt4_results.split('```json\n', 1)[1].rsplit('```', 1)[0].strip()
+        content = template.render( results=slither_results, analysis_results=json.loads(json_part) )
+    else:
+        content = template.render( results=slither_results )
+
+    with open(filename, mode="w", encoding="utf-8") as message:
+        message.write(content)
+        print(f"... wrote {filename}")
 
 
 def remove_comments(solidity_code):
@@ -92,13 +109,18 @@ def flatten(contract_path: str):
 
 
 @app.command()
-def analyze(contract_path: str, use_ai: bool = typer.Option(True, help="Use AI for further analysis"), without_comments: bool = typer.Option(False, help="Remove comments from the contract before analysis")):
+def analyze(
+    contract_path: str, 
+    use_ai: bool = typer.Option(True, help="Use AI for further analysis"), 
+    without_comments: bool = typer.Option(False, help="Remove comments from the contract before analysis"),
+    html: bool = typer.Option(False, help="generate HTML report")):
     """
     Analyze a smart contract for vulnerabilities.
     """
     slither_results = run_slither_analysis(contract_path)
     if slither_results:
         typer.echo("Static analysis completed.")
+
         if use_ai:
             flattened_code = flatten_contract(contract_path)
             if without_comments:
@@ -116,8 +138,12 @@ def analyze(contract_path: str, use_ai: bool = typer.Option(True, help="Use AI f
             gpt4_response = query_llm(prompt)
             typer.echo("AI Analysis Results:")
             typer.echo(gpt4_response)
+            if html:
+                generate_html_report(slither_results['results'], gpt4_response)
         else:
             typer.echo(json.dumps(slither_results, indent=2))
+            if html:
+                generate_html_report(slither_results['results'])
     else:
         typer.echo("Failed to analyze the contract.")
 
