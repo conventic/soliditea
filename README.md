@@ -13,7 +13,49 @@ code improvements.
 - Option to remove comments for testing.
 - Customizable settings.
 
-## Requirements
+## Setup via pkgx
+
+`python` and `pip` are required to be installed and working.
+The following script will use pkgx to install all required dependencies
+
+```console
+./setup.sh
+```
+
+## Run AI code check
+
+```console
+python main.py analyze contracts/BadAuth.sol
+```
+
+To remove comments from the code you can use
+
+```console
+python main.py analyze contracts/BadAuth.sol --without-comments
+```
+
+## Test in Docker
+
+```console
+docker build -t ceylon-setup . --platform linux/amd64 
+docker run --rm -it --platform linux/amd64  --name ceylon-container -v $(pwd):/ceylon ceylon-setup /bin/sh
+./setup.sh
+python main.py analyze contracts/BadAuth.sol --without-comments
+```
+
+## Acknowledgments
+
+Special thanks to all contributors and supporters of the project.
+
+Peter Robinson (<https://github.com/drinkcoffee>) was a great inspiration in  
+<https://www.youtube.com/watch?v=J7dUOSPG0WY&t=1531s> and published useful code  
+on <https://github.com/drinkcoffee/EthEngGroupSolidityExamples/blob/master/ai/scripts/reviewsol.py>
+
+## Manual setup
+
+If you used the recommended pkgx setup you can ignore this part.
+
+### Requirements
 
 - Solidity: Check with `solc --version`.
 - Python 3.7+.
@@ -21,7 +63,7 @@ code improvements.
 
 Check `solc --version` to make sure solidity is installed.
 
-### Install solc (if not yet installed)
+#### Install solc (if not yet installed)
 
 <https://docs.soliditylang.org/en/latest/installing-solidity.html>
 
@@ -32,28 +74,28 @@ solc-select use 0.8.16
 solc --version
 ```
 
-### Setup virtual environment (optional)
+#### Setup virtual environment (optional)
 
 ```console
-pip3 install virtualenv
+pip install virtualenv
 virtualenv venv
 source venv/bin/activate
 ```
 
-### Install dependencies
+#### Install dependencies
 
 ```console
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-### Install truffle-flattener
+#### Install truffle-flattener
 
 ```console
 npm install -g truffle
 npm install -g truffle-flattener
 ```
 
-### Setup OpenAI API key
+#### Setup OpenAI API key
 
 Create a `.env` file:
 
@@ -63,30 +105,9 @@ cp .env.example .env
 
 and replace `YOUR_API_KEY` with a valid OpenAI API key.
 
-### Run Slither
+#### Run Slither
 
 ```console
 solc-select use 0.8.16
 slither contracts/BadAuth.sol --json slither_output.json
 ```
-
-## Run AI code check
-
-```console
-python3 main.py analyze contracts/BadAuth.sol
-```
-
-To remove comments from the code you can use
-
-```console
-python3 main.py analyze contracts/BadAuth.sol \
-    --without-comments
-```
-
-## Acknowledgments
-
-Special thanks to all contributors and supporters of the project.
-
-Peter Robinson (<https://github.com/drinkcoffee>) was a great inspiration in  
-<https://www.youtube.com/watch?v=J7dUOSPG0WY&t=1531s> and published useful code  
-on <https://github.com/drinkcoffee/EthEngGroupSolidityExamples/blob/master/ai/scripts/reviewsol.py>
