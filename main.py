@@ -18,12 +18,14 @@ def generate_html_report(slither_results, gpt4_results):
     filename = "report.html"
     env = Environment(loader=FileSystemLoader("templates/"))
     template = env.get_template("default.html")
-    
+
     if gpt4_results:
-        json_part = gpt4_results.split('```json\n', 1)[1].rsplit('```', 1)[0].strip()
-        content = template.render( results=slither_results, analysis_results=json.loads(json_part) )
+        json_part = gpt4_results.split('```json\n', 1)[
+            1].rsplit('```', 1)[0].strip()
+        content = template.render(
+            results=slither_results, analysis_results=json.loads(json_part))
     else:
-        content = template.render( results=slither_results )
+        content = template.render(results=slither_results)
 
     with open(filename, mode="w", encoding="utf-8") as message:
         message.write(content)
@@ -110,10 +112,11 @@ def flatten(contract_path: str):
 
 @app.command()
 def analyze(
-    contract_path: str, 
-    use_ai: bool = typer.Option(True, help="Use AI for further analysis"), 
-    without_comments: bool = typer.Option(False, help="Remove comments from the contract before analysis"),
-    html: bool = typer.Option(False, help="generate HTML report")):
+        contract_path: str,
+        use_ai: bool = typer.Option(True, help="Use AI for further analysis"),
+        without_comments: bool = typer.Option(
+            False, help="Remove comments from the contract before analysis"),
+        html: bool = typer.Option(False, help="generate HTML report")):
     """
     Analyze a smart contract for vulnerabilities.
     """
