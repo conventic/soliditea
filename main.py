@@ -42,8 +42,8 @@ def remove_comments(solidity_code):
 
 def flatten_contract(contract_path):
     try:
-        flattened_code = subprocess.check_output(
-            ['truffle-flattener', contract_path])
+        command = ['npx', 'truffle-flattener', contract_path]
+        flattened_code = subprocess.check_output(command)
         return flattened_code.decode('utf-8')
     except subprocess.CalledProcessError as e:
         print(f"Error flattening contract: {e}")

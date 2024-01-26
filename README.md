@@ -15,6 +15,7 @@ code improvements.
 
 ## Setup via pkgx
 
+`python` and `pip` are required to be installed and working.
 The following script will use pkgx to install all required dependencies
 
 ```console
@@ -24,14 +25,22 @@ The following script will use pkgx to install all required dependencies
 ## Run AI code check
 
 ```console
-python3 main.py analyze contracts/BadAuth.sol
+python main.py analyze contracts/BadAuth.sol
 ```
 
 To remove comments from the code you can use
 
 ```console
-python3 main.py analyze contracts/BadAuth.sol \
-    --without-comments
+python main.py analyze contracts/BadAuth.sol --without-comments
+```
+
+## Test in Docker
+
+```console
+docker build -t ceylon-setup . --platform linux/amd64 
+docker run --rm -it --platform linux/amd64  --name ceylon-container -v $(pwd):/ceylon ceylon-setup /bin/sh
+./setup.sh
+python main.py analyze contracts/BadAuth.sol --without-comments
 ```
 
 ## Acknowledgments
@@ -68,7 +77,7 @@ solc --version
 #### Setup virtual environment (optional)
 
 ```console
-pip3 install virtualenv
+pip install virtualenv
 virtualenv venv
 source venv/bin/activate
 ```
@@ -76,7 +85,7 @@ source venv/bin/activate
 #### Install dependencies
 
 ```console
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 #### Install truffle-flattener
