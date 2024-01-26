@@ -6,6 +6,8 @@ auditing Solidity contracts. This tool integrates with existing development
 workflows, offering insights into potential vulnerabilities and suggesting  
 code improvements.
 
+🚀👩‍💻 This software was initially created as a contribution to the tea x pkgx hackathon 🚀👩‍💻
+
 ## Features
 
 - AI-driven review and vulnerability check of smart contract code.
@@ -37,7 +39,7 @@ python main.py analyze contracts/BadAuth.sol --without-comments
 ## Test in Docker
 
 ```console
-docker build -t ceylon-setup . --platform linux/amd64 
+docker build -t ceylon-setup . --platform linux/amd64
 docker run --rm -it --platform linux/amd64  --name ceylon-container -v $(pwd):/ceylon ceylon-setup /bin/sh
 ./setup.sh
 python main.py analyze contracts/BadAuth.sol --without-comments

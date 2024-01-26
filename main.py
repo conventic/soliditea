@@ -22,6 +22,8 @@ def generate_html_report(slither_results, gpt4_results):
     if gpt4_results:
         json_part = gpt4_results.split('```json\n', 1)[
             1].rsplit('```', 1)[0].strip()
+        json_part = json_part.replace("+ ice block emoji", "🧊")
+        json_part = json_part.replace("+ fire emoji", "🔥")
         content = template.render(
             results=slither_results, analysis_results=json.loads(json_part))
     else:

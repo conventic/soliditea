@@ -2,83 +2,90 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Vulnerabilities Report</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
-      .container {
-        width: 80%;
-        margin: auto;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      .analysis-item {
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-      }
-      .severity {
-        font-weight: bold;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h1>Vulnerabilities Report</h1>
-    {% if results.detectors %}
-    <table>
-      <tr>
-        <th>Check</th>
-        <th>Confidence</th>
-        <th>Description</th>
-        <th>Elements</th>
-      </tr>
-      {% for detector in results.detectors %}
-      <tr>
-        <td>{{ detector.check }}</td>
-        <td>{{ detector.confidence }}</td>
-        <td>{{ detector.description }}</td>
-        <td>
-          <ul>
-            {% for element in detector.elements %}
-            <li>{{ element.name }}</li>
-            {% endfor %}
-          </ul>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-    <p>No vulnerabilities detected.</p>
-    {% endif %}
+  <body class="bg-gray-800 text-white">
+    <header class="p-4 shadow-lg bg-gray-900">
+      <div class="container mx-auto">
+        <h1 class="text-xl">Vulnerability Report</h1>
+      </div>
+    </header>
 
-    <h1>AI Analysis Results</h1>
-    {% for item in analysis_results %}
-    <div class="analysis-item">
-      <h2>Description</h2>
-      <p>{{ item.description }}</p>
-      <h2>Action</h2>
-      <p>{{ item.action }}</p>
-      <h2>Severity</h2>
-      <p class="severity">{{ item.severity }}</p>
-      <h2>Actors</h2>
-      <p>{{ item.actors | join(", ") }}</p>
-      <h2>Scenario</h2>
-      <p>{{ item.scenario }}</p>
-      <h2>Type</h2>
-      <p>{{ item.type }}</p>
+    <div class="container mx-auto my-4 p-4 bg-gray-900 rounded">
+      <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+        <!-- Issues by Status Widget -->
+        <div class="bg-gray-700 p-4 rounded">
+          <h2 class="text-lg mb-2">Static Slither Analysis</h2>
+          {% if results.detectors %}
+          <table>
+            <tr>
+              <th>Check</th>
+              <th>Confidence</th>
+              <th>Description</th>
+              <th>Elements</th>
+            </tr>
+            {% for detector in results.detectors %}
+            <tr
+              class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-bottom:bg-gray-500"
+            >
+              <td class="align-top px-6 py-4">{{ detector.check }}</td>
+              <td class="align-top px-6 py-4">{{ detector.confidence }}</td>
+              <td class="align-top px-6 py-4">{{ detector.description }}</td>
+              <td class="align-top px-6 py-4">
+                <ul>
+                  {% for element in detector.elements %}
+                  <li>{{ element.name }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+          {% else %}
+          <p>No vulnerabilities detected.</p>
+          {% endif %}
+
+          <p class="text-center">234 ISSUES</p>
+        </div>
+
+        <!-- Most Severe Issues Widget -->
+        <div class="bg-gray-700 p-4 rounded">
+          <h2 class="text-lg mb-2">AI Audit findings</h2>
+          {% if analysis_results %}
+          <table>
+            <tr>
+              <th>Description</th>
+              <th>Action</th>
+              <th>Severity</th>
+              <th>Actors</th>
+              <th>Scenario</th>
+              <th>Type</th>
+            </tr>
+            {% for item in analysis_results %}
+            <tr
+              class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-bottom:bg-gray-500"
+            >
+              <td class="align-top px-6 py-4">{{ item.description }}</td>
+              <td class="align-top px-6 py-4">{{ item.action }}</td>
+              <td class="align-top px-6 py-4">{{ item.severity }}</td>
+              <td class="align-top px-6 py-4">
+                {{ item.actors | join(", ") }}
+              </td>
+              <td class="align-top px-6 py-4">{{ item.scenario }}</td>
+              <td class="align-top px-6 py-4">{{ item.type }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+          {% else %}
+          <p>No vulnerabilities detected.</p>
+          {% endif %}
+          <p class="text-center">234 FINDINGS</p>
+        </div>
+      </div>
+
+      <!-- Additional rows and widgets would be similarly structured -->
     </div>
-    {% endfor %}
   </body>
 </html>
