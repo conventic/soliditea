@@ -1,6 +1,6 @@
-# ceylon
+# soliditea
 
-Review and audit smart contracts with AI. ceylon is a tool designed to assist  
+Review and audit smart contracts with AI. soliditea is a tool designed to assist  
 in the smart contract development process. It leverages AI for reviewing and  
 auditing Solidity contracts. This tool integrates with existing development  
 workflows, offering insights into potential vulnerabilities and suggesting  
@@ -39,8 +39,8 @@ python main.py analyze contracts/BadAuth.sol --without-comments
 ## Test in Docker
 
 ```console
-docker build -t ceylon-setup . --platform linux/amd64
-docker run --rm -it --platform linux/amd64  --name ceylon-container -v $(pwd):/ceylon ceylon-setup /bin/sh
+docker build -t soliditea-setup . --platform linux/amd64
+docker run --rm -it --platform linux/amd64  --name soliditea-container -v $(pwd):/soliditea soliditea-setup /bin/sh
 ./setup.sh
 python main.py analyze contracts/BadAuth.sol --without-comments
 ```

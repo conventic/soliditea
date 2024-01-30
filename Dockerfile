@@ -5,4 +5,4 @@ FROM python:3.10
 RUN apt-get update
 
 # Set the working directory to the project directory
-WORKDIR /ceylon
+WORKDIR /soliditea
