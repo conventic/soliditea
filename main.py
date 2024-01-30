@@ -118,7 +118,7 @@ def analyze(
         use_ai: bool = typer.Option(True, help="Use AI for further analysis"),
         without_comments: bool = typer.Option(
             False, help="Remove comments from the contract before analysis"),
-        html: bool = typer.Option(False, help="generate HTML report")):
+        html: bool = typer.Option(True, help="generate HTML report")):
     """
     Analyze a smart contract for vulnerabilities.
     """
