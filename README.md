@@ -8,6 +8,10 @@ code improvements.
 
 🚀👩‍💻 This software was initially created as a contribution to the tea x pkgx hackathon 🚀👩‍💻
 
+## YouTube Video
+
+[![Soliditea Setup Video Tutorial](https://img.youtube.com/vi/2WEJO3vWrvw/0.jpg)](https://www.youtube.com/watch?v=2WEJO3vWrvw)
+
 ## Features
 
 - AI-driven review and vulnerability check of smart contract code.
